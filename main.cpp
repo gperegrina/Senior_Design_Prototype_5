@@ -14,56 +14,26 @@ using namespace std;
 int exitgame = 0;
 int pausedgame = 20;
 
+
 int main() {
 
-	//Global Variables
+	//Window Opening
 	sf::RenderWindow window(sf::VideoMode(720, 480), "Fight Hard Yeah! Tower Defense Game", sf::Style::Close | sf::Style::Titlebar);
-	//sf::RenderWindow window(sf::VideoMode(1024, 576), "Fight Hard Yeah! Tower Defense Game", sf::Style::Close | sf::Style::Titlebar);
 
+	//Class Access Speicifiers
 	Audio audio;
 	Graphic graphics;
-	int flag = 0, counter = 0, help = 0, drawtower = 0;
+
+	//Variables
+	int flag = 0, counter = 0, help = 0, counter2 = 0;
 	sf::Clock clock1; // clock for AI Cuong
 	sf::Clock clock2;
 	sf::Clock clock3;
-	int counter2 = 0, counter3 = 0;
 
-	//---------------------------------------------------------------------------------------------------------------
-	//Gerardo			//Miguel moved code 4/7
 	//Player character texture, rectangle bound to box
 	sf::Texture playerTexture;
 	playerTexture.loadFromFile("char_sprite_walk3.png");
 	Player player(&playerTexture, sf::Vector2u(3, 3), 0.3f, 100.0f);
-	/*
-	sf::RectangleShape playerRect;
-	sf::Texture playerTexture2;
-	playerTexture2.loadFromFile("player.png");
-
-	playerRect.setSize(sf::Vector2f(40.0f, 40.0f));
-	playerRect.setPosition(220.0f, 220.0f);
-	playerRect.setTexture(&playerTexture2);
-	*/
-	sf::RectangleShape tower1;
-	sf::RectangleShape tower2;
-	sf::RectangleShape tower3;
-	sf::Texture towertex1;
-	sf::Texture towertex2;
-	sf::Texture towertex3;
-	towertex1.loadFromFile("tower1.png");
-	tower1.setSize(sf::Vector2f(30.0f, 40.0f));
-	towertex2.loadFromFile("tower2.png");
-	tower2.setSize(sf::Vector2f(30.0f, 40.0f));
-	towertex3.loadFromFile("tower3.png");
-	tower3.setSize(sf::Vector2f(30.0f, 40.0f));
-	tower1.setTexture(&towertex1);
-	tower2.setTexture(&towertex2);
-	tower3.setTexture(&towertex3);
-	tower1.setPosition(630.0f, 48.0f);
-	tower2.setPosition(660.0f, 48.0f);
-	tower3.setPosition(690.0f, 48.0f);
-
-
-	//---------------------------------------------------------------------------------------------------------------
 
 
 	//---------------------------------------------------------------------------------------------------------------
@@ -114,45 +84,25 @@ int main() {
 		spriteHealth[1][j].setTextureRect(sf::IntRect(0, 190, 111, 47));
 		spriteHealth[0][j].setTextureRect(sf::IntRect(0, 237, 111, 47));
 	}
-	//if (player.here == 1) {
 		for (int i = 0; i < 6; i++) 
 		{ 
 			spriteHealth[i][0].setPosition(sf::Vector2f(609, -480)); 
 			spriteAmmo[i][0].setPosition(sf::Vector2f(609, -433));
 		}
-	//}
-	//else if (player.here == 2) {
 		for (int i = 0; i < 6; i++) { spriteHealth[i][1].setPosition(sf::Vector2f(1329, 0)); }
-	//}
-	//else if (player.here == 3) {
 		for (int i = 0; i < 6; i++) { spriteHealth[i][2].setPosition(sf::Vector2f(609, 480)); }
-	//}
-	//else if (player.here == 4) {
 		for (int i = 0; i < 6; i++) { spriteHealth[i][3].setPosition(sf::Vector2f(-111, 0)); }
-	//}
-	//else if (player.here == 5) {
 		for (int i = 0; i < 6; i++) { spriteHealth[i][4].setPosition(sf::Vector2f(609, 0)); }
-	//}
-	//else if (player.here == 6) {
 		for (int i = 0; i < 6; i++) { spriteHealth[i][5].setPosition(sf::Vector2f(-111, 480)); }
-	//}
-	//else if (player.here == 7) {
-		for (int i = 0; i < 6; i++) { spriteHealth[i][6].setPosition(sf::Vector2f(1329, 480)); }
-	//}
-	//else { }
-	
+		for (int i = 0; i < 6; i++) { spriteHealth[i][6].setPosition(sf::Vector2f(1329, 480)); }	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 	//---------------------------------------------------------------------------------------------------------------
-	//Miguel Walls
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//Miguel Walls							4/2/17-4/7/17
-	//For now I just did the borders for each section
+	//Miguel Walls						4/2/17-4/7/17
 	vector<Wall>::const_iterator wallit;
 	vector<Wall> wallArray;
-
-	class Wall wall0, wall1, wall2, wall3, wall4;
+		class Wall wall0, wall1, wall2, wall3, wall4;
 
 	sf::Texture textureWall;
 	textureWall.loadFromFile("cave_block.png");
@@ -195,8 +145,6 @@ int main() {
 	{
 		wall0.rect.setPosition(i, 0);
 		wallArray.push_back(wall0);
-		//wall0.rect.setPosition(i, 430);
-		//wallArray.push_back(wall0);
 		for (int j = 0; j <= 450; j += 50)
 		{
 			wall0.rect.setPosition(-720, j);
@@ -224,8 +172,6 @@ int main() {
 	{
 		wall0.rect.setPosition(i, 910);
 		wallArray.push_back(wall0);
-		//wall0.rect.setPosition(i, 430);
-		//wallArray.push_back(wall0);
 		for (int j = 480; j <= 960; j += 50)
 		{
 			wall0.rect.setPosition(-720, j);
@@ -250,8 +196,6 @@ int main() {
 	//CenterNorth
 	///Top+Right+Left
 	for (int i = 0; i <= 720; i += 50) {
-		//wall0.rect.setPosition(i, 0);
-		//wallArray.push_back(wall0);
 		wall0.rect.setPosition(i, -480);
 		wallArray.push_back(wall0);
 		for (int j = -480; j <= -50; j += 50)
@@ -373,27 +317,7 @@ int main() {
 	wall1.rect.setSize(sf::Vector2f(149, 140));
 	wallArray.push_back(wall1);
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*
 
-	vector<Wall>::const_iterator wallit;
-	vector<Wall> wallArray;
-
-	class Wall wall1, wall2, wall3, wall4;
-
-	wall1.rect.setPosition(0, 0);
-	wall1.rect.setSize(sf::Vector2f(720, 160));
-	wallArray.push_back(wall1);
-	wall2.rect.setPosition(0, 340);
-	wall2.rect.setSize(sf::Vector2f(150, 150));
-	wallArray.push_back(wall2);
-	wall3.rect.setPosition(150, 430);
-	wall3.rect.setSize(sf::Vector2f(570, 50));
-	wallArray.push_back(wall3);
-	wall4.rect.setPosition(560, 240);
-	wall4.rect.setSize(sf::Vector2f(30, 10));
-	wallArray.push_back(wall4);
-	*/
-	//---------------------------------------------------------------------------------------------------------------
 
 
 	//---------------------------------------------------------------------------------------------------------------
@@ -401,30 +325,7 @@ int main() {
 	vector<Resource>::const_iterator resourceit;
 	vector<Resource> resourceArray;
 	class Resource resource1;
-	//sf::Texture textureResource1;
 	sf::Texture textureResource1, textureResource2, textureResource3;
-
-
-	//Miguel Resource Allocation
-	/*resource1.resource1 = true;
-	resource1.resource2 = false;
-	resource1.resource3 = false;
-	resource1.rect.setFillColor(sf::Color::Green);
-	resource1.rect.setPosition(300, 350);
-	resourceArray.push_back(resource1);
-	resource1.resource1 = false;
-	resource1.resource2 = true;
-	resource1.resource3 = false;
-	resource1.rect.setFillColor(sf::Color::Blue);
-	resource1.rect.setPosition(400, 250);
-	resourceArray.push_back(resource1);
-	resource1.resource1 = false;
-	resource1.resource2 = false;
-	resource1.resource3 = true;
-	resource1.rect.setFillColor(sf::Color::Red);
-	resource1.rect.setPosition(200, 250);
-	resourceArray.push_back(resource1);*/
-	//Miguel Resource Allocation
 
 	resource1.resource1 = true;
 	resource1.resource2 = false;
@@ -464,9 +365,7 @@ int main() {
 
 
 	//---------------------------------------------------------------------------------------------------------------
-	//Gerardo Player Sprite/Sound
-	//Player player(&playerTexture, sf::Vector2u(3, 3), 0.3f, 100.0f);
-	//Assigning Player Footstep Sounds
+	//Gerardo Player	Assigning Player Footstep Sounds
 	if (!player.soundBuf.loadFromFile("foot.wav"))
 		std::cout << "can't open sound file" << std::endl;
 	player.sound.setBuffer(player.soundBuf);
@@ -476,12 +375,12 @@ int main() {
 
 	//---------------------------------------------------------------------------------------------------------------
 	//Cuong
-	// Adding enemy texture - need to work more for sprite sheet
+	// Adding enemy texture
 	sf::Texture textureEnemy;
 	if (!textureEnemy.loadFromFile("ghost.png")) {
 		return EXIT_FAILURE;
 	}
-	// Adding enemy texture type 2 spawning randomly //////////////////// added on 04/01
+	// Adding enemy texture type 2
 	sf::Texture textureEnemy2;
 	if (!textureEnemy2.loadFromFile("monster.png")) {
 		return EXIT_FAILURE;
@@ -489,23 +388,38 @@ int main() {
 
 	vector<enemy>::const_iterator iter4;
 	vector<enemy> enemyArray;
-	vector<enemy> enemy1Array;   //////////////////////////////added on 04/01
-
-
-								 // Enemy Objects - make 2 enemies try
-	class enemy enemy1, enemy2;
+	vector<enemy> enemy1Array; 
+	class enemy enemy1, enemy2, enemy3;
 
 	enemy1.sprite.setTexture(textureEnemy);
-	enemy1.rect.setPosition(700, 250); // y: 200 is the border with the wall
+	enemy1.rect.setPosition(700, 250); // enemy type 1
 	enemyArray.push_back(enemy1);
 
+	enemy2.sprite.setTexture(textureEnemy);
+	enemy2.rect.setPosition(1000, 260); // enemy type 1
+	enemyArray.push_back(enemy2);
+
+	enemy3.sprite.setTexture(textureEnemy);
+	enemy3.rect.setPosition(-400, 280); // enemy type 1
+	
+	enemy1.sprite.setTexture(textureEnemy2);
+	enemy1.rect.setPosition(500, 260);
+	enemy1Array.push_back(enemy2); 
+
 	enemy2.sprite.setTexture(textureEnemy2);
-	enemy2.rect.setPosition(500, 260);
-	enemy1Array.push_back(enemy2); ////////////////////add 04/01 enemy type 2 spawn randomly
+	enemy2.rect.setPosition(400, 260);
+	enemy1Array.push_back(enemy2); 
+
+	enemy1.sprite.setTexture(textureEnemy2);
+	enemy1.rect.setPosition(500, 260);
+	enemy1Array.push_back(enemy2);
+
+	enemy2.sprite.setTexture(textureEnemy2);
+	enemy2.rect.setPosition(400, 260);
+	enemy1Array.push_back(enemy2); 
 
 	vector<projectile>::const_iterator iter;
 	vector<projectile> projectileArray;
-
 	class projectile projectile1;
 	//---------------------------------------------------------------------------------------------------------------
 
@@ -515,22 +429,18 @@ int main() {
 	float deltaTime = 0.0f;
 	sf::Clock clock;
 	//if(music = 1) play
-	//if(music = 2) play
-
 	cout << "Playing background music" << endl;
 	audio.backgroundmusic1.play();
 	audio.backgroundmusic1.setVolume(25);
 	//---------------------------------------------------------------------------------------------------------------
 
 	sf::Time elapsed1 = clock1.getElapsedTime();
-
 	player.tower = 3;
 
 	while (window.isOpen())
 	{
 		deltaTime = clock.restart().asSeconds();
 		sf::Event evnt;
-		//if (pausedgame == 0) {
 		while (window.pollEvent(evnt))
 		{
 			switch (evnt.type)
@@ -553,19 +463,13 @@ int main() {
 			if (evnt.type == sf::Event::KeyPressed)
 			{
 				if (evnt.key.code == sf::Keyboard::P) {
-					//pausedgame = 1;
-					//Pauses the game for alloted seconds you only have so many seconds to pause
 					if (pausedgame > 0) {
 						sf::sleep(sf::seconds(10));
 						std::cout << "Game Paused" << std::endl;
 						pausedgame -= 10;
 					}
 				}
-
-				//Gerardo 4/3 Moved Cuongs Code ---------------------------------------------------------------------
-				//Added Gun Sound, and Empty Gun Sound
 				if (evnt.key.code == sf::Keyboard::Space) {
-					//Gerardo+Miguel 4/7 Added flag for gun equipped
 					if (player.gun == 1 && flag == 1) {
 						if (player.ammo > 0) {
 							audio.gunSound.play();
@@ -576,7 +480,6 @@ int main() {
 							else
 								player.ammo -= 1;
 							std::cout << "ammo left: " << player.ammo << std::endl;
-
 							if (elapsed1.asSeconds() >= 0.1)
 							{
 								clock1.restart();
@@ -593,10 +496,7 @@ int main() {
 					else {
 						std::cout << "!no gun equipped!" << std::endl;
 					}
-					//-----------------------------------------------------------------------------------------------------
 				}
-				//Miguel
-				//Gerardo 4/4 Moved code
 				if (evnt.key.code == sf::Keyboard::H) {
 					help ^= 1;
 					cout << "Health: " << player.health << endl;
@@ -604,132 +504,98 @@ int main() {
 					cout << "Tower : " << player.tower << endl;
 				}
 			}
-			//---------------------------------------------------------------------------------------------------------------
-			//Gerardo
-			//Grabbing Left Button
 			if (evnt.type == sf::Event::MouseButtonPressed)
 			{
-				/*if (evnt.key.code == sf::Mouse::Left)
-				{
-				std::cout << "left button clicked" << std::endl;
-				sf::Vector2i position = sf::Mouse::getPosition(window);
-				std::cout << position.x << std::endl;
-				std::cout << position.y << std::endl;
-				}*/
 				if (evnt.key.code == sf::Mouse::Right)
 				{
 					std::cout << "player towers left" << player.tower << std::endl;
-					drawtower = 1;
 					sf::Vector2i positionTower = sf::Mouse::getPosition(window);
-					std::cout << "right click X(" << positionTower.x << ")" << std::endl;
-					std::cout << "right click Y(" << positionTower.y << ")" << std::endl;
-
-					//float posx = positionTower.x;
-					//float posy = positionTower.y;
+					//std::cout << "right click X(" << positionTower.x << ")" << std::endl;
+					//std::cout << "right click Y(" << positionTower.y << ")" << std::endl;
 
 					if (player.tower == 3)
 					{
-						//tower1.setPosition(positionTower.x + 304.0f, positionTower.y + 96.0f);
 						if (player.W == true) {
-							tower1.setPosition(positionTower.x - 720.0f, positionTower.y);
+							graphics.tower1.setPosition(positionTower.x - 720.0f, positionTower.y);
 						}
 						else if (player.SW == true) {
-							tower1.setPosition(positionTower.x - 720.0f, positionTower.y + 480.0f);
+							graphics.tower1.setPosition(positionTower.x - 720.0f, positionTower.y + 480.0f);
 						}
 						else if (player.S == true) {
-							tower1.setPosition(positionTower.x, positionTower.y + 480.0f);
+							graphics.tower1.setPosition(positionTower.x, positionTower.y + 480.0f);
 						}
 						else if (player.SE == true) {
-							tower1.setPosition(positionTower.x + 720.0f, positionTower.y + 480.0f);
+							graphics.tower1.setPosition(positionTower.x + 720.0f, positionTower.y + 480.0f);
 						}
 						else if (player.E == true) {
-							tower1.setPosition(positionTower.x + 720.0f, positionTower.y);
+							graphics.tower1.setPosition(positionTower.x + 720.0f, positionTower.y);
 						}
 						else if (player.N == true) {
-							tower1.setPosition(positionTower.x, positionTower.y - 480.0f);
+							graphics.tower1.setPosition(positionTower.x, positionTower.y - 480.0f);
 						}
 						else {
-							tower1.setPosition(positionTower.x, positionTower.y);
+							graphics.tower1.setPosition(positionTower.x, positionTower.y);
 						}
 						player.tower--;
-						std::cout << "Placing tower on x: " << positionTower.x << ",y: " << positionTower.y << std::endl;
-						//window.draw(tower1);
 					}
 					else if (player.tower == 2)
 					{
 						if (player.W == true) {
-							tower2.setPosition(positionTower.x - 720.0f, positionTower.y);
+							graphics.tower2.setPosition(positionTower.x - 720.0f, positionTower.y);
 						}
 						else if (player.SW == true) {
-							tower2.setPosition(positionTower.x - 720.0f, positionTower.y + 480.0f);
+							graphics.tower2.setPosition(positionTower.x - 720.0f, positionTower.y + 480.0f);
 						}
 						else if (player.S == true) {
-							tower2.setPosition(positionTower.x, positionTower.y + 480.0f);
+							graphics.tower2.setPosition(positionTower.x, positionTower.y + 480.0f);
 						}
 						else if (player.SE == true) {
-							tower2.setPosition(positionTower.x + 720.0f, positionTower.y + 480.0f);
+							graphics.tower2.setPosition(positionTower.x + 720.0f, positionTower.y + 480.0f);
 						}
 						else if (player.E == true) {
-							tower2.setPosition(positionTower.x + 720.0f, positionTower.y);
+							graphics.tower2.setPosition(positionTower.x + 720.0f, positionTower.y);
 						}
 						else if (player.N == true) {
-							tower2.setPosition(positionTower.x, positionTower.y - 480.0f);
+							graphics.tower2.setPosition(positionTower.x, positionTower.y - 480.0f);
 						}
 						else {
-							tower2.setPosition(positionTower.x, positionTower.y);
+							graphics.tower2.setPosition(positionTower.x, positionTower.y);
 						}
-						//tower2.setPosition(positionTower.x, positionTower.y);
 						player.tower--;
-						std::cout << "Placing tower on x: " << positionTower.x << ",y: " << positionTower.y << std::endl;
-						//window.draw(tower2);
 					}
 					else if (player.tower == 1)
 					{
 						if (player.W == true) {
-							tower3.setPosition(positionTower.x - 720.0f, positionTower.y);
+							graphics.tower3.setPosition(positionTower.x - 720.0f, positionTower.y);
 						}
 						else if (player.SW == true) {
-							tower3.setPosition(positionTower.x - 720.0f, positionTower.y + 480.0f);
+							graphics.tower3.setPosition(positionTower.x - 720.0f, positionTower.y + 480.0f);
 						}
 						else if (player.S == true) {
-							tower3.setPosition(positionTower.x, positionTower.y + 480.0f);
+							graphics.tower3.setPosition(positionTower.x, positionTower.y + 480.0f);
 						}
 						else if (player.SE == true) {
-							tower3.setPosition(positionTower.x + 720.0f, positionTower.y + 480.0f);
+							graphics.tower3.setPosition(positionTower.x + 720.0f, positionTower.y + 480.0f);
 						}
 						else if (player.E == true) {
-							tower3.setPosition(positionTower.x + 720.0f, positionTower.y);
+							graphics.tower3.setPosition(positionTower.x + 720.0f, positionTower.y);
 						}
 						else if (player.N == true) {
-							tower3.setPosition(positionTower.x, positionTower.y - 480.0f);
+							graphics.tower3.setPosition(positionTower.x, positionTower.y - 480.0f);
 						}
 						else {
-							tower3.setPosition(positionTower.x, positionTower.y);
+							graphics.tower3.setPosition(positionTower.x, positionTower.y);
 						}
-						//tower3.setPosition(positionTower.x, positionTower.y);
 						player.tower--;
 						std::cout << "Placing tower on x: " << positionTower.x << ",y: " << positionTower.y << std::endl;
-						//window.draw(tower3);
 					}
-					//tower1.setPosition(positionTower.x, positionTower.y);
-					//std::cout << "Placing tower on x: " << positionTower.x << ",y: " << positionTower.y << std::endl;
 				}
 			}
-			//---------------------------------------------------------------------------------------------------------------
 		}
-		//} 
-		/*
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::H))
-		{
-		help ^= 1;
-		}
-		*/
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num1))
 		{
 			flag = 0;
 		}
-		//Miguel
-		//Gerardo 4/4 added flag for gun resource
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num2))
 		{
 			if (player.gun == 1) {
@@ -753,12 +619,8 @@ int main() {
 			playerTexture.loadFromFile("char_sprite_walk_gun_1.png");
 		}
 
-		//sf::Vector2f playerpos = player.body.getPosition();
-		//std::cout << playerpos.x << std::endl;
-		//std::cout << playerpos.y << std::endl;
 		//---------------------------------------------------------------------------------------------------------------
-		//Cuong 04/01
-		//Enemy Wall Collision
+		//Cuong Enemy Wall Collision
 		counter = 0;
 		for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
 		{
@@ -794,12 +656,11 @@ int main() {
 				}
 				counter2++;
 			}
-
 			counter++;
 		}
 
 
-		//Enemy Wall Collision type 2 ////////////////////////////////////////////////////// added 04/01
+		//Enemy Wall Collision type 2
 		counter = 0;
 		for (iter4 = enemy1Array.begin(); iter4 != enemy1Array.end(); iter4++)
 		{
@@ -835,16 +696,13 @@ int main() {
 				}
 				counter2++;
 			}
-
 			counter++;
 		}
 		//---------------------------------------------------------------------------------------------------------------
 
-
 		window.setView(player.view);
 
-		//start---------------------------------------------------------------------------------------------------------------
-		//Miguel
+		//Miguel ---------------------------------------------------------------------------------------------------------------
 		//Player Wall Collision
 		counter = 0;
 		for (wallit = wallArray.begin(); wallit != wallArray.end(); wallit++) {
@@ -921,19 +779,34 @@ int main() {
 		}
 		//end---------------------------------------------------------------------------------------------------------------
 
-		//what is this?
-		//window.setView(player.view);
+
+
+
+		//Player shaded are location
+		int temp = player.playerposx;
+		int temp2 = player.playerposy;
+		graphics.playerShade.setPosition(temp-950.0f, temp2-520.0f);
+
+		//if (player.ammo < 3)
+		//	graphics.playerShadeTexture.loadFromFile("shade_black_big.png");
+
+		//last changes made to graphics, and main about the shade on the player
+		//Gerardo 4/13
+
+
+
 
 		player.Update(deltaTime);
 		window.clear(sf::Color(125, 125, 125));
+
+		//Drawing Backgrounds
 		window.draw(graphics.background);
 		window.draw(graphics.background2);
 		window.draw(graphics.background3);
 		window.draw(graphics.background4);
-		//window.draw(graphics.background5);
 		window.draw(graphics.background6);
 		window.draw(graphics.background7);
-
+		
 
 		//Draw Wall
 		counter = 0;
@@ -947,37 +820,15 @@ int main() {
 		}
 		player.Draw(window);
 
-		//window.setPosition(sf::Vector2i(50, 50));
-		//Miguel
-		//////////////////////////////////////////////////////////////////////////////////////////////////
-		//											4/2/17  
-		/*window.draw(wall1.sprite);
-		window.draw(wall2.sprite);
-		window.draw(wall3.sprite);
-		window.draw(wall4.sprite);*/
+		//Miguel	4/2/17  
 		window.draw(wall0.sprite);
 		window.draw(graphics.backgroundTree);
 		window.draw(graphics.backgroundExitBottom);
 		window.draw(graphics.backgroundExitTop);
 		window.draw(graphics.backgroundExitTop2);
-		////////////////////////////////////////////////////////////////////////////////////////////////////
-		/*
-		window.draw(wall1.sprite);
-		window.draw(wall2.sprite);
-		window.draw(wall3.sprite);
-		window.draw(wall4.sprite);
-		*/
 		window.draw(graphics.backgroundTree);
 
-
-		//window.draw(playerRect);
-
-		//start---------------------------------------------------------------------------------------------------------------
-		//Cuong 
-		// Enemy Vector Array
-
-		//Drawing Enemy
-		//sf::Time elapsed1 = clock1.getElapsedTime();
+		//Cuong Enemy Vector Array
 		sf::Time elapsed2 = clock2.getElapsedTime();
 		sf::Time elapsed3 = clock3.getElapsedTime();
 
@@ -988,16 +839,13 @@ int main() {
 			if (enemyArray[counter].chase == true)
 			{
 				if (elapsed3.asSeconds() >= 0.5) //Changed to .5 on 04/01
-
 				{
 					clock3.restart();
-
 					int tempRand = generateRandom(3);
 					//Added 04/01
 					if (tempRand == 1) // Enemy Chases Player
 					{
 						projectile1.attackDamage = enemyArray[counter].attackDamage;
-
 					}
 					if (tempRand == 2)
 					{
@@ -1037,72 +885,6 @@ int main() {
 							enemyArray[counter].direction = 2;
 						}
 					}
-					//------
-
-					/* Removed by Cuong 04/01
-					if (tempRand == 1) // Track Player Position
-					{
-					// Player to Right
-					if ((player.body.getPosition().x < enemyArray[counter].rect.getPosition().x) && (abs(player.body.getPosition().y - enemyArray[counter].rect.getPosition().y) <= 40))
-					{
-					enemyArray[counter].direction = 3;
-					}
-					// Player to Left
-					if ((player.body.getPosition().x > enemyArray[counter].rect.getPosition().x) && (abs(player.body.getPosition().y - enemyArray[counter].rect.getPosition().y) <= 40))
-					{
-					enemyArray[counter].direction = 4;
-					}
-					// Player to Top
-					if ((player.body.getPosition().y < enemyArray[counter].rect.getPosition().y) && (abs(player.body.getPosition().x - enemyArray[counter].rect.getPosition().x) <= 40))
-					{
-					enemyArray[counter].direction = 1;
-					}
-					// Player to Bottom
-					if ((player.body.getPosition().y > enemyArray[counter].rect.getPosition().y) && (abs(player.body.getPosition().x - enemyArray[counter].rect.getPosition().x) <= 40))
-					{
-					enemyArray[counter].direction = 2;
-					}
-					}
-					else if (tempRand == 2) // Enemy Chases Player
-					{
-					if (player.body.getPosition().y < enemyArray[counter].rect.getPosition().y)
-					{
-					enemyArray[counter].direction = 1;
-					}
-					else if (player.body.getPosition().y > enemyArray[counter].rect.getPosition().y)
-					{
-					enemyArray[counter].direction = 2;
-					}
-					else if (player.body.getPosition().x < enemyArray[counter].rect.getPosition().x)
-					{
-					enemyArray[counter].direction = 3;
-					}
-					else if (player.body.getPosition().x > enemyArray[counter].rect.getPosition().x)
-					{
-					enemyArray[counter].direction = 4;
-					}
-					}
-					else // Enemy Chases Player
-					{
-					if (player.body.getPosition().x < enemyArray[counter].rect.getPosition().x)
-					{
-					enemyArray[counter].direction = 3;
-					}
-					else if (player.body.getPosition().x > enemyArray[counter].rect.getPosition().x)
-					{
-					enemyArray[counter].direction = 4;
-					}
-					else if (player.body.getPosition().y < enemyArray[counter].rect.getPosition().y)
-					{
-					enemyArray[counter].direction = 1;
-					}
-					else if (player.body.getPosition().y > enemyArray[counter].rect.getPosition().y)
-					{
-					enemyArray[counter].direction = 2;
-					}
-					}
-					*/
-
 				}
 			}
 			counter++;
@@ -1119,26 +901,20 @@ int main() {
 				if (projectileArray[counter].rect.getGlobalBounds().intersects(enemyArray[counter2].rect.getGlobalBounds()))
 				{
 					cout << "bullet collision with enemy" << endl;
-
 					projectileArray[counter].destroy = true;
-
 					enemyArray[counter2].hp -= projectileArray[counter].attackDamage;
 					if (enemyArray[counter2].hp <= 0)
 					{
 						enemyArray[counter2].alive = false;
 					}
-
 					// Chasing
 					enemyArray[counter2].chase = true;
-
 				}
-
 				counter2++;
 			}
-
 			counter++;
 		}
-		///////////////////////////////////////////////////////////////////////////////////
+
 		//Miguel					4/7/17
 		//Enemy Player Collision
 		counter = 0;
@@ -1185,7 +961,6 @@ int main() {
 			counter++;
 		}
 		//End
-		/////////////////////////////////////////////////////////////////////
 
 		// Delete Dead Enemy
 		counter = 0;
@@ -1197,7 +972,6 @@ int main() {
 				enemyArray.erase(iter4);
 				break;
 			}
-
 			counter++;
 		}
 
@@ -1215,10 +989,7 @@ int main() {
 			counter++;
 		}
 
-		//--------------------------------------------------------------------------------------------------
-		//Cuong
-		// Projectile Collides with Enemy type 2 /////////////////////////////////////////added on 04/01
-		//start---------------------------------------------------------------------------------------
+		//Cuong		Projectile Collides with Enemy type 2 
 		counter = 0;
 		for (iter = projectileArray.begin(); iter != projectileArray.end(); iter++)
 		{
@@ -1228,20 +999,15 @@ int main() {
 				if (projectileArray[counter].rect.getGlobalBounds().intersects(enemy1Array[counter2].rect.getGlobalBounds()))
 				{
 					cout << "bullet collision with enemy" << endl;
-
 					projectileArray[counter].destroy = true;
-
 					enemy1Array[counter2].hp -= projectileArray[counter].attackDamage;
 					if (enemy1Array[counter2].hp <= 0)
 					{
 						enemy1Array[counter2].alive = false;
 					}
-
 				}
-
 				counter2++;
 			}
-
 			counter++;
 		}
 
@@ -1255,37 +1021,9 @@ int main() {
 				enemy1Array.erase(iter4);
 				break;
 			}
-
 			counter++;
 		}
 
-
-		//end-------------------------------------------------------------------------------------------------------------
-
-
-
-
-		// Player Fires Shoot  (Space bar)
-		/*
-		if (elapsed1.asSeconds() >= 0.1)
-		{
-		clock1.restart();
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		{
-		if (player.ammo <= 0)
-		break;
-		else {
-		projectile1.rect.setPosition(player.body.getPosition().x + player.body.getSize().x / 2 - projectile1.rect.getSize().x / 2, player.body.getPosition().y + player.body.getSize().y / 2 - projectile1.rect.getSize().y / 2);
-		projectile1.direction = player.direction;
-		projectileArray.push_back(projectile1);
-		std::cout << "space bar hit" << std::endl;
-		}
-		//Gerardo 4/3 Gunshot Sound
-
-		}
-
-		}
-		*/
 
 		// Draw Projectiles
 		counter = 0;
@@ -1293,124 +1031,53 @@ int main() {
 		{
 			projectileArray[counter].update(); // Update Projectile
 			window.draw(projectileArray[counter].rect);
-
 			counter++;
 		}
 
-
-		/*
-		counter = 0;
-		for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
-		{
-		if (enemyArray[counter].chase == true)
-		{
-		if (elapsed1.asSeconds() >= 1)
-		{
-		clock1.restart();
-		int tempRand = generateRandom(3);
-		if (tempRand == 1) // Track Player Position
-		{
-		// Player to Right
-		if ((player.body.getPosition().x < enemyArray[counter].rect.getPosition().x) && (abs(player.body.getPosition().y - enemyArray[counter].rect.getPosition().y) <= 40)) {
-		enemyArray[counter].direction = 3;
-		}
-		// Player to Left
-		if ((player.body.getPosition().x > enemyArray[counter].rect.getPosition().x) && (abs(player.body.getPosition().y - enemyArray[counter].rect.getPosition().y) <= 40)){
-		enemyArray[counter].direction = 4;
-		}
-		// Player to Top
-		if ((player.body.getPosition().y < enemyArray[counter].rect.getPosition().y) && (abs(player.body.getPosition().x - enemyArray[counter].rect.getPosition().x) <= 40)) {
-		enemyArray[counter].direction = 1;
-		}
-		// Player to Bottom
-		if ((player.body.getPosition().y > enemyArray[counter].rect.getPosition().y) && (abs(player.body.getPosition().x - enemyArray[counter].rect.getPosition().x) <= 40)) {
-		enemyArray[counter].direction = 2;
-		}
-		}
-		else if (tempRand == 2) // Enemy Chases Player
-		{
-		if (player.body.getPosition().y < enemyArray[counter].rect.getPosition().y)	{
-		enemyArray[counter].direction = 1;
-		}
-		else if (player.body.getPosition().y > enemyArray[counter].rect.getPosition().y) {
-		enemyArray[counter].direction = 2;
-		}
-		else if (player.body.getPosition().x < enemyArray[counter].rect.getPosition().x) {
-		enemyArray[counter].direction = 3;
-		}
-		else if (player.body.getPosition().x > enemyArray[counter].rect.getPosition().x) {
-		enemyArray[counter].direction = 4;
-		}
-		}
-		else // Enemy Chases Player
-		{
-		if (player.body.getPosition().x < enemyArray[counter].rect.getPosition().x) {
-		enemyArray[counter].direction = 3;
-		}
-		else if (player.body.getPosition().x > enemyArray[counter].rect.getPosition().x) {
-		enemyArray[counter].direction = 4;
-		}
-		else if (player.body.getPosition().y < enemyArray[counter].rect.getPosition().y) {
-		enemyArray[counter].direction = 1;
-		}
-		else if (player.body.getPosition().y > enemyArray[counter].rect.getPosition().y) {
-		enemyArray[counter].direction = 2;
-		}
-		}
-		}
-		}
-		counter++;
-		}
-		*/
-
-
-		//enemyArray[counter2].chase = true;		//Removed 3/31
 		// Draw Enemies
 		counter = 0;
 		for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
 		{
 			enemyArray[counter].update();
 			enemyArray[counter].updateMovement();
-			//window.draw(enemyArray[counter].rect);
 			window.draw(enemyArray[counter].sprite);
 			counter++;
 		}
-		//end---------------------------------------------------------------------------------------------------------------
 
-		//Cuong 
-		// Draw Enemies type 2 no chasing - spawn randomly ///////////////////////////////////// added on 04/01
+		//Cuong		Draw Enemies type 2 no chasing - spawn randomly 
 		counter = 0;
 		for (iter4 = enemy1Array.begin(); iter4 != enemy1Array.end(); iter4++)
 		{
 			enemy1Array[counter].update();
 			enemy1Array[counter].updateMovement();
-			//window.draw(enemyArray[counter].rect);
 			window.draw(enemy1Array[counter].sprite);
-
 			counter++;
 		}
-		//---------------------------------------------------------------------------------------------------------------------
 
 
-
-		//start---------------------------------------------------------------------------------------------------------------
 		//Miguel Draw Resources
 		counter = 0;
 		for (resourceit = resourceArray.begin(); resourceit != resourceArray.end(); resourceit++)
 		{
 			resourceArray[counter].update();
-
 			window.draw(resourceArray[counter].rect);
 			window.draw(resourceArray[counter].sprite);
 			counter++;
 		}
-
 		window.draw(text);
 		help == 0 ? window.draw(textHelp) : window.draw(textHelp2);
 
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//														4/2/17-4/7/17
-		//Miguel draw Health Bar
+
+
+		//Drawing Towers
+		window.draw(graphics.tower1);
+		window.draw(graphics.tower2);
+		window.draw(graphics.tower3);
+
+		//Drawing player shade region
+		window.draw(graphics.playerShade);
+
+		//Miguel draw Health Bar		4/2/17-4/7/17
 		for (int j = 0; j < 7; j++) {
 			if (player.health > 4)
 				window.draw(spriteHealth[5][j]);
@@ -1425,33 +1092,12 @@ int main() {
 			else
 				window.draw(spriteHealth[0][j]);
 		}
-		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		//end---------------------------------------------------------------------------------------------------------------
-
-		/*if (player.tower == 3)
-		{
-		window.draw(tower1);
-		}
-		if (player.tower == 2)
-		{
-		window.draw(tower2);
-		}
-		if (player.tower == 1)
-		{
-		window.draw(tower3);
-		}*/
-		window.draw(tower1);
-		window.draw(tower2);
-		window.draw(tower3);
 
 		//displaying Escape Menu
 		if (exitgame == 1) window.draw(graphics.menuImage);
 		else	graphics.menuImage.setTexture(&graphics.menuTexture);
 
 		window.display();
-
-
 	}
 	return 0;
 }
