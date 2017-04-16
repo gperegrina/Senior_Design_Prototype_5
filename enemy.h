@@ -8,9 +8,9 @@ class enemy
 {
 public:
 	//float movementSpeed = 0.5; //slower
-	int movementSpeed = 5;
+	int movementSpeed = 2;
 	int movementLength = 100; //50 move shorter
-	int attackDamage = 2;
+	int attackDamage = 1;
 	//////Miguel
 	double enemyAttackDamage1 = 0.1;
 	double enemyAttackDamage2 = 0.2;

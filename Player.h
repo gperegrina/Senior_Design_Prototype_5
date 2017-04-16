@@ -37,6 +37,13 @@ public:
 	int dead = 0;
 	int ammo = 3;
 	int tower = 3;
+	
+	//Gerardo 4/15 
+	//Individual Towers
+	int tower1 = 0;
+	int tower2 = 0;
+	int tower3 = 0;
+
 	int gun = 0;
 	//Coordinates
 	bool N = false, E = false, C = false, S = false, W = false, SW = false, SE = false;
@@ -53,9 +60,4 @@ private:
 
 
 };
-
-
-
-
-
 

@@ -9,6 +9,7 @@
 #include "Resource.h"
 #include "enemy.h"
 #include "Projectile.h"
+#include "Tower.h"
 
 using namespace std;
 int exitgame = 0;
@@ -23,12 +24,17 @@ int main() {
 	//Class Access Speicifiers
 	Audio audio;
 	Graphic graphics;
+	Tower towers;	//Gerardo 4/15
+	Tower towers2;
+	Tower towers3;
 
 	//Variables
 	int flag = 0, counter = 0, help = 0, counter2 = 0;
 	sf::Clock clock1; // clock for AI Cuong
 	sf::Clock clock2;
 	sf::Clock clock3;
+
+	int tower_attack = 0;
 
 	//Player character texture, rectangle bound to box
 	sf::Texture playerTexture;
@@ -391,6 +397,48 @@ int main() {
 	vector<enemy> enemy1Array; 
 	class enemy enemy1, enemy2, enemy3;
 
+	//Cuong 4/13
+	// West map enemies
+	enemy1.sprite.setTexture(textureEnemy);
+	enemy1.rect.setPosition(-600, 600);
+	enemyArray.push_back(enemy1); // enemy type 1 chasing
+
+	enemy1.sprite.setTexture(textureEnemy2);
+	enemy1.rect.setPosition(-600, 200);
+	enemy1Array.push_back(enemy1); // enemy type 2 spawn randomly
+
+	enemy2.sprite.setTexture(textureEnemy2);
+	enemy2.rect.setPosition(-500, 500);
+	enemy1Array.push_back(enemy2); // enemy type 2 spawn randomly
+
+								   // South map enemies
+	enemy2.sprite.setTexture(textureEnemy);
+	enemy2.rect.setPosition(500, 800); // enemy type 1 chasing
+	enemyArray.push_back(enemy2);
+
+	// East map enemies
+	enemy2.sprite.setTexture(textureEnemy);
+	enemy2.rect.setPosition(1000, 700);
+	enemyArray.push_back(enemy1);// enemy type 1 chasing
+
+	enemy1.sprite.setTexture(textureEnemy2);
+	enemy1.rect.setPosition(1000, 800);
+	enemy1Array.push_back(enemy1);// enemy type 2 spawn randomly
+
+	enemy2.sprite.setTexture(textureEnemy2);
+	enemy2.rect.setPosition(800, 300);
+	enemy1Array.push_back(enemy2); // enemy type 2 spawn randoml
+
+								   // North map enemies
+	enemy3.sprite.setTexture(textureEnemy);
+	enemy3.rect.setPosition(300, 400);
+	enemyArray.push_back(enemy3);// enemy type 1 chasing
+
+	enemy3.sprite.setTexture(textureEnemy2);
+	enemy3.rect.setPosition(300, 400);
+	enemy1Array.push_back(enemy3); // enemy type 2 spawn randoml
+
+	/*
 	enemy1.sprite.setTexture(textureEnemy);
 	enemy1.rect.setPosition(700, 250); // enemy type 1
 	enemyArray.push_back(enemy1);
@@ -417,10 +465,21 @@ int main() {
 	enemy2.sprite.setTexture(textureEnemy2);
 	enemy2.rect.setPosition(400, 260);
 	enemy1Array.push_back(enemy2); 
+	*/
+
 
 	vector<projectile>::const_iterator iter;
 	vector<projectile> projectileArray;
 	class projectile projectile1;
+
+	//Gerardo Attempting Tower Attacks 4/15
+	//vector<Tower>::const_iterator tower_iter;
+	//vector<Tower> t_projectileArray;
+	//class Tower t_projectile;
+
+	//vector<projectile>::const_iterator t_iter;
+	//vector<projectile> t_projectileArray;
+	//class projectile t_projectile;
 	//---------------------------------------------------------------------------------------------------------------
 
 
@@ -441,6 +500,7 @@ int main() {
 	{
 		deltaTime = clock.restart().asSeconds();
 		sf::Event evnt;
+
 		while (window.pollEvent(evnt))
 		{
 			switch (evnt.type)
@@ -488,6 +548,12 @@ int main() {
 								projectileArray.push_back(projectile1);
 								std::cout << "space bar hit" << std::endl;
 							}
+							//Gerardo Tower Attack Speed
+							if (tower_attack == 1) {
+								tower_attack = 0;
+							}
+							else
+								tower_attack++;
 						}
 						else {
 							audio.gunEmptySound.play();
@@ -508,38 +574,154 @@ int main() {
 			{
 				if (evnt.key.code == sf::Mouse::Right)
 				{
+					//Gerardo 4/15
+					//Have player have different towers to be placed
+					//if player.tower == tower1;
+					//if player.tower == tower2;
+
+					//Gerardo 4/15
+					//Make it so the player can only place towers when they have one
+					//in inventory
+					//and then place that tower with attacks down
+					//tower1 = 1 attack
+					//tower2 = 2 attacks
+					//tower3 = 4 attacks
+
 					std::cout << "player towers left" << player.tower << std::endl;
 					sf::Vector2i positionTower = sf::Mouse::getPosition(window);
 					//std::cout << "right click X(" << positionTower.x << ")" << std::endl;
 					//std::cout << "right click Y(" << positionTower.y << ")" << std::endl;
 
-					if (player.tower == 3)
-					{
+
+					//Gerardo 4/15
+					//Last changes, tower differentiality
+					if (player.tower1 == 1) {
+					//if (player.tower == 3)
+					//{
+						towers.active1 = 1;
 						if (player.W == true) {
 							graphics.tower1.setPosition(positionTower.x - 720.0f, positionTower.y);
+							towers.rect.setPosition(positionTower.x - 720.0f, positionTower.y);
 						}
 						else if (player.SW == true) {
 							graphics.tower1.setPosition(positionTower.x - 720.0f, positionTower.y + 480.0f);
+							towers.rect.setPosition(positionTower.x - 720.0f, positionTower.y + 480.0f);
 						}
 						else if (player.S == true) {
 							graphics.tower1.setPosition(positionTower.x, positionTower.y + 480.0f);
+							towers.rect.setPosition(positionTower.x, positionTower.y + 480.0f);
+
 						}
 						else if (player.SE == true) {
 							graphics.tower1.setPosition(positionTower.x + 720.0f, positionTower.y + 480.0f);
+							towers.rect.setPosition(positionTower.x + 720.0f, positionTower.y + 480.0f);
+
 						}
 						else if (player.E == true) {
 							graphics.tower1.setPosition(positionTower.x + 720.0f, positionTower.y);
+							towers.rect.setPosition(positionTower.x + 720.0f, positionTower.y);
+
 						}
 						else if (player.N == true) {
 							graphics.tower1.setPosition(positionTower.x, positionTower.y - 480.0f);
+							towers.rect.setPosition(positionTower.x, positionTower.y - 480.0f);
+
 						}
 						else {
 							graphics.tower1.setPosition(positionTower.x, positionTower.y);
+							towers.rect.setPosition(positionTower.x, positionTower.y);
+
 						}
-						player.tower--;
+						//player.tower--;
 					}
+					if (player.tower2 == 1) {
+						//if (player.tower == 3)
+						//{
+						towers2.active2 = 1;
+						if (player.W == true) {
+							graphics.tower1.setPosition(positionTower.x - 720.0f, positionTower.y);
+							towers2.rect.setPosition(positionTower.x - 720.0f, positionTower.y);
+						}
+						else if (player.SW == true) {
+							graphics.tower1.setPosition(positionTower.x - 720.0f, positionTower.y + 480.0f);
+							towers2.rect.setPosition(positionTower.x - 720.0f, positionTower.y + 480.0f);
+						}
+						else if (player.S == true) {
+							graphics.tower1.setPosition(positionTower.x, positionTower.y + 480.0f);
+							towers2.rect.setPosition(positionTower.x, positionTower.y + 480.0f);
+
+						}
+						else if (player.SE == true) {
+							graphics.tower1.setPosition(positionTower.x + 720.0f, positionTower.y + 480.0f);
+							towers2.rect.setPosition(positionTower.x + 720.0f, positionTower.y + 480.0f);
+
+						}
+						else if (player.E == true) {
+							graphics.tower1.setPosition(positionTower.x + 720.0f, positionTower.y);
+							towers2.rect.setPosition(positionTower.x + 720.0f, positionTower.y);
+
+						}
+						else if (player.N == true) {
+							graphics.tower1.setPosition(positionTower.x, positionTower.y - 480.0f);
+							towers2.rect.setPosition(positionTower.x, positionTower.y - 480.0f);
+
+						}
+						else {
+							graphics.tower1.setPosition(positionTower.x, positionTower.y);
+							towers2.rect.setPosition(positionTower.x, positionTower.y);
+
+						}
+						//player.tower--;
+					}
+					if (player.tower3 == 1) {
+						//if (player.tower == 3)
+						//{
+						towers3.active3 = 1;
+						if (player.W == true) {
+							graphics.tower1.setPosition(positionTower.x - 720.0f, positionTower.y);
+							towers3.rect.setPosition(positionTower.x - 720.0f, positionTower.y);
+						}
+						else if (player.SW == true) {
+							graphics.tower1.setPosition(positionTower.x - 720.0f, positionTower.y + 480.0f);
+							towers3.rect.setPosition(positionTower.x - 720.0f, positionTower.y + 480.0f);
+						}
+						else if (player.S == true) {
+							graphics.tower1.setPosition(positionTower.x, positionTower.y + 480.0f);
+							towers3.rect.setPosition(positionTower.x, positionTower.y + 480.0f);
+
+						}
+						else if (player.SE == true) {
+							graphics.tower1.setPosition(positionTower.x + 720.0f, positionTower.y + 480.0f);
+							towers3.rect.setPosition(positionTower.x + 720.0f, positionTower.y + 480.0f);
+
+						}
+						else if (player.E == true) {
+							graphics.tower1.setPosition(positionTower.x + 720.0f, positionTower.y);
+							towers3.rect.setPosition(positionTower.x + 720.0f, positionTower.y);
+
+						}
+						else if (player.N == true) {
+							graphics.tower1.setPosition(positionTower.x, positionTower.y - 480.0f);
+							towers3.rect.setPosition(positionTower.x, positionTower.y - 480.0f);
+
+						}
+						else {
+							graphics.tower1.setPosition(positionTower.x, positionTower.y);
+							towers3.rect.setPosition(positionTower.x, positionTower.y);
+
+						}
+						//player.tower--;
+					}
+
+
+
+
+					/*
 					else if (player.tower == 2)
 					{
+						towers2.rect.setPosition(positionTower.x - 720.0f, positionTower.y);
+						towers2.active2 = 1;
+
 						if (player.W == true) {
 							graphics.tower2.setPosition(positionTower.x - 720.0f, positionTower.y);
 						}
@@ -589,6 +771,7 @@ int main() {
 						player.tower--;
 						std::cout << "Placing tower on x: " << positionTower.x << ",y: " << positionTower.y << std::endl;
 					}
+					*/
 				}
 			}
 		}
@@ -605,7 +788,7 @@ int main() {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Num3))
 		{
 //For debugging purposes ONLY
-			player.ammo = 30;
+			player.ammo = 5;
 			player.health = 30;
 			player.tower = 3;
 			player.gun = 1;
@@ -760,6 +943,7 @@ int main() {
 				{
 					audio.gunPickupSound.play();
 					player.gun = 1;
+					player.tower1 = 1;
 					cout << "gun: " << player.gun << endl;
 					resourceArray[counter].gathered = true;
 				}
@@ -782,7 +966,7 @@ int main() {
 
 
 
-		//Player shaded are location
+		//Player shaded area location
 		int temp = player.playerposx;
 		int temp2 = player.playerposy;
 		graphics.playerShade.setPosition(temp-950.0f, temp2-520.0f);
@@ -790,11 +974,55 @@ int main() {
 		//if (player.ammo < 3)
 		//	graphics.playerShadeTexture.loadFromFile("shade_black_big.png");
 
-		//last changes made to graphics, and main about the shade on the player
-		//Gerardo 4/13
 
+		//Instead have onely 1 towers class?
+		//Towers shoot different directions
+		//Gerardo Tower Attacks 4/15
+		//player.tower2 = 1;
+		//player.tower3 = 1;
+		//player.tower1 = 1;
 
+		if (tower_attack == 1) {
+			if (towers.active1 == 1) {
+				towers.direction = player.direction;
+				projectileArray.push_back(towers);
+			}
 
+			if (towers2.active2 == 1) {
+				towers2.direction = player.direction;
+				projectileArray.push_back(towers2);
+
+				//if player.direction 1
+				//	then direction = 2
+				
+				if (player.direction == 1)
+					towers2.direction = 3;
+				else if (player.direction == 2)
+					towers2.direction = 3;
+				else if (player.direction == 3)
+					towers2.direction = 2;
+				else
+					towers2.direction = 2;
+				//towers2.direction = 3;
+				projectileArray.push_back(towers2);
+			}
+
+			if (towers3.active3 == 1) {
+
+				towers3.direction = player.direction;
+				projectileArray.push_back(towers3);
+
+				towers3.direction = 1;
+				projectileArray.push_back(towers3);
+
+				towers3.direction = 4;
+				projectileArray.push_back(towers3);
+
+			}
+
+			tower_attack = 0;
+		}
+		
 
 		player.Update(deltaTime);
 		window.clear(sf::Color(125, 125, 125));
